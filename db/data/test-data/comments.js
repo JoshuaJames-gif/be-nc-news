@@ -1,4 +1,4 @@
-module.exports = [{
+exports.comments = [{
   body:
     "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
   belongs_to: "They're not exactly dogs, are they?",
