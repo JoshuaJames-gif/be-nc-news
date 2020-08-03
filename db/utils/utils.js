@@ -1,5 +1,16 @@
-exports.formatDates = list => {};
+exports.formatDates = list => {
+  if(list.length === 0){
+    return []
+  }
+  const changeToDate = new Date(list[0].created_at).toLocaleDateString("en-UK")
+  const changeToTime = new Date(list[0].created_at).toLocaleTimeString("en-UK")
+  console.log(`${changeToDate} @ ${changeToTime}`)
 
-exports.makeRefObj = list => {};
+  list[0].created_at = `${changeToDate} @ ${changeToTime}`
 
-exports.formatComments = (comments, articleRef) => {};
+  return list
+};
+
+exports.makeRefObj = list => { };
+
+exports.formatComments = (comments, articleRef) => { };

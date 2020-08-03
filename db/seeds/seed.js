@@ -21,6 +21,7 @@ exports.seed = function(knex) {
 
       Your comment insertions will depend on information from the seeded articles, so make sure to return the data after it's been seeded.
       */
+      return knex('')
     })
     .then(articleRows => {
       /* 
