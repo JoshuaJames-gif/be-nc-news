@@ -77,6 +77,109 @@ describe('formatDates', () => {
   });
 });
 
-describe('makeRefObj', () => { });
+describe('makeRefObj', () => {
+  test('returns an object', () => {
+    expect(makeRefObj([])).toEqual({})
+  });
+  test('works for a single element', () => {
+    const input = [{
+      article_id: 1,
+      title: 'UNCOVERED: catspiracy to bring down democracy',
+      topic: 'cats',
+      author: 'rogersop',
+      body: 'Bastet walks amongst us, and the cats are taking arms!',
+      created_at: '11/19/2002 @ 12:21:54 PM',
+    }]
+    const output = {
+      'UNCOVERED: catspiracy to bring down democracy': 1
+    }
+    const key = 'title'
+    const value = 'article_id'
+    expect(makeRefObj(input, key, value)).toEqual(output)
+  })
+  test('works for multiple elements', () => {
+    const input = [{
+      article_id: 1,
+      title: 'UNCOVERED: catspiracy to bring down democracy',
+      topic: 'cats',
+      author: 'rogersop',
+      body: 'Bastet walks amongst us, and the cats are taking arms!',
+      created_at: '11/19/2002 @ 12:21:54 PM',
+    }, {
+      article_id: 2,
+      title: 'A',
+      topic: 'mitch',
+      author: 'icellusedkars',
+      body: 'Delicious tin of cat food',
+      created_at: 'Friday, 11/20/1998 @ 12:21:54'
+    }]
+    const output = {
+      'UNCOVERED: catspiracy to bring down democracy': 1,
+      'A': 2
+    }
+    const key = 'title'
+    const value = 'article_id'
+    expect(makeRefObj(input, key, value)).toEqual(output)
+  });
+});
 
-describe('formatComments', () => { });
+describe('formatComments', () => {
+  test('returns an array when passed an array', () => {
+    expect(formatComments([])).toEqual([])
+  });
+  test('works for a single comment', () => {
+    const comment = [{
+      body:
+        "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+      belongs_to: "They're not exactly dogs, are they?",
+      created_by: "butter_bridge",
+      votes: 16,
+      created_at: 1511354163389,
+    }];
+    const articleRef = { "They're not exactly dogs, are they?": 1 };
+    const formattedComment = [{
+      body:
+        "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+      article_id: 1,
+      author: "butter_bridge",
+      votes: 16,
+      created_at: new Date(1511354163389),
+    }];
+    expect(formatComments(comment, articleRef)).toEqual(formattedComment);
+  });
+  test('works for multiple comments', () => {
+    const comments = [{
+      body:
+        "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+      belongs_to: "They're not exactly dogs, are they?",
+      created_by: "butter_bridge",
+      votes: 16,
+      created_at: 1511354163389,
+    }, {
+      body:
+        'The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.',
+      belongs_to: 'Living in the shadow of a great man',
+      created_by: 'butter_bridge',
+      votes: 14,
+      created_at: 1479818163389,
+    }];
+    const articleRef = { "They're not exactly dogs, are they?": 1, "Living in the shadow of a great man": 2 };
+    const formattedComment = [{
+      body:
+        "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+      article_id: 1,
+      author: "butter_bridge",
+      votes: 16,
+      created_at: new Date(1511354163389),
+    }, {
+      body:
+        'The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.',
+      article_id: 2,
+      author: 'butter_bridge',
+      votes: 14,
+      created_at: new Date(1479818163389),
+    }];
+    expect(formatComments(comments, articleRef)).toEqual(formattedComment)
+  });
+  
+});

@@ -9,8 +9,8 @@ exports.up = function (knex) {
       .integer('votes')
       .defaultTo(0)
     articleTable
-      .integer('topic_id')
-      .references('topics.topic_id')
+      .string('topic')
+      .references('topics.slug')
 
     articleTable
       .string('author')
