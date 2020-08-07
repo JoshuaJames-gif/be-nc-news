@@ -61,14 +61,25 @@ describe("app", () => {
             expect(article).toHaveProperty("comment_count");
           });
       });
-      test('GET: 400 /api/articles/:article_id - error when article_id is an invalid data type', () => {
+      // test('GET: 400 /api/articles/:article_id - error when article_id is an invalid data type', () => {
+      //   return request(app)
+      //     .get("/api/articles/ARTICLE")
+      //     .expect(400)
+      //     .then((body) => {
+      //       console.log(body)
+      //       expect(body.msg).toBe("Invalid request");
+      //     });
+      
+      // });
+      test('PATCH: 200 /api/articles/:article_id - responds with updated article', () => {
+        const newVote = `{ inc_votes : 1 }`
         return request(app)
-          .get("/api/articles/ARTICLE")
-          .expect(400)
+          .patch('/api/articles/1')
+          .send(newVote)
+          .expect(200)
           .then(({ body }) => {
-            console.log(body)
-            expect(body.msg).toBe("User does not exist!");
-          });
+            expect(body).toEqual(newArticle)
+          })
       });
     });
   });
